@@ -1,0 +1,11 @@
+# Example entry format:
+# - id: example-recipe
+#   name: Example Recipe
+#   description: Example recipe description.
+#   author: Example Author
+#   file: recipes/example-recipe.yaml
+#   requiresLicense: true
+
+version: 1
+updated: 2026-09-23
+recipes: []
