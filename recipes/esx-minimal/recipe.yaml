@@ -1,0 +1,82 @@
+# Project Singularity recipe: ESX Legacy (minimal)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$onesync: on
+name: "ESX Legacy (minimal)"
+version: 1.0.0
+author: Project Singularity
+description: "The ESX core with character registration and the skin menu, nothing else."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/esx-minimal/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+
+  ## Database
+  - action: connect_database
+
+  ## ESX core
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[standalone]/oxmysql
+  - action: download_file
+    url: https://github.com/esx-framework/esx_core/archive/refs/heads/main.zip
+    path: ./tmp/esx_core.zip
+  - action: unzip
+    src: ./tmp/esx_core.zip
+    dest: ./tmp/esx_core
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[core]/es_extended
+    dest: ./resources/[core]/es_extended
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[core]/esx_lib
+    dest: ./resources/[core]/esx_lib
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[core]/esx_identity
+    dest: ./resources/[core]/esx_identity
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[core]/esx_skin
+    dest: ./resources/[core]/esx_skin
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[core]/skinchanger
+    dest: ./resources/[core]/skinchanger
+
+  ## Database tables
+  - action: replace_string
+    file: ./resources/[core]/es_extended/es_extended.sql
+    search: "`es_extended`"
+    replace: "`{{dbName}}`"
+  - action: query_database
+    file: ./resources/[core]/es_extended/es_extended.sql
+  - action: query_database
+    file: ./resources/[core]/esx_identity/esx_identity.sql
+  - action: query_database
+    file: ./resources/[core]/esx_skin/esx_skin.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

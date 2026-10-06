@@ -1,0 +1,141 @@
+# Project Singularity recipe: ESX Legacy (full)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$onesync: on
+name: "ESX Legacy (full)"
+version: 1.0.0
+author: Project Singularity
+description: "Every ESX Legacy resource: the whole core, all addons and the seasonal content, with phone, voice and the ox library."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/esx-full/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+
+  ## Database
+  - action: connect_database
+
+  ## Libraries
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[standalone]/oxmysql
+  - action: download_file
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+    path: ./tmp/ox_lib.zip
+  - action: unzip
+    src: ./tmp/ox_lib.zip
+    dest: ./tmp/ox_lib
+  - action: move_path
+    src: ./tmp/ox_lib/ox_lib
+    dest: ./resources/[standalone]/ox_lib
+
+  ## ESX core, all addons, seasonal content
+  - action: download_file
+    url: https://github.com/esx-framework/esx_core/archive/refs/heads/main.zip
+    path: ./tmp/esx_core.zip
+  - action: unzip
+    src: ./tmp/esx_core.zip
+    dest: ./tmp/esx_core
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[core]
+    dest: ./resources/[core]
+  - action: move_path
+    src: ./tmp/esx_core/esx_core-main/[SQL]/legacy.sql
+    dest: ./tmp/esx-legacy.sql
+  - action: download_file
+    url: https://github.com/esx-framework/ESX-Legacy-Addons/archive/refs/heads/main.zip
+    path: ./tmp/esx_addons.zip
+  - action: unzip
+    src: ./tmp/esx_addons.zip
+    dest: ./tmp/esx_addons
+  - action: move_path
+    src: ./tmp/esx_addons/ESX-Legacy-Addons-main/[esx_addons]
+    dest: ./resources/[esx_addons]
+  - action: download_file
+    url: https://github.com/esx-framework/ESX-Legacy-Seasonal/archive/refs/heads/main.zip
+    path: ./tmp/esx_seasonal.zip
+  - action: unzip
+    src: ./tmp/esx_seasonal.zip
+    dest: ./tmp/esx_seasonal
+  - action: move_path
+    src: ./tmp/esx_seasonal/ESX-Legacy-Seasonal-main
+    dest: ./resources/[esx_seasonal]
+
+  ## Phone, voice, map
+  - action: download_file
+    url: https://github.com/Samuels-Development/sd-phone/releases/latest/download/sd-phone.zip
+    path: ./tmp/sd-phone.zip
+  - action: unzip
+    src: ./tmp/sd-phone.zip
+    dest: ./tmp/sd-phone
+  - action: move_path
+    src: ./tmp/sd-phone/sd-phone
+    dest: ./resources/[standalone]/sd-phone
+  - action: download_file
+    url: https://github.com/Samuels-Development/sd-phone-props/archive/refs/heads/main.zip
+    path: ./tmp/sd-phone-props.zip
+  - action: unzip
+    src: ./tmp/sd-phone-props.zip
+    dest: ./tmp/sd-phone-props
+  - action: move_path
+    src: ./tmp/sd-phone-props/sd-phone-props-main
+    dest: ./resources/[standalone]/sd-phone-props
+  - action: download_file
+    url: https://github.com/AvarianKnight/pma-voice/archive/refs/heads/main.zip
+    path: ./tmp/pma-voice.zip
+  - action: unzip
+    src: ./tmp/pma-voice.zip
+    dest: ./tmp/pma-voice
+  - action: move_path
+    src: ./tmp/pma-voice/pma-voice-main
+    dest: ./resources/[standalone]/pma-voice
+  - action: download_file
+    url: https://github.com/Bob74/bob74_ipl/archive/refs/heads/master.zip
+    path: ./tmp/bob74_ipl.zip
+  - action: unzip
+    src: ./tmp/bob74_ipl.zip
+    dest: ./tmp/bob74_ipl
+  - action: move_path
+    src: ./tmp/bob74_ipl/bob74_ipl-master
+    dest: ./resources/[standalone]/bob74_ipl
+  - action: download_file
+    url: https://github.com/project-error/screenshot-basic/releases/download/1.0.1/screenshot-basic.zip
+    path: ./tmp/screenshot-basic.zip
+  - action: unzip
+    src: ./tmp/screenshot-basic.zip
+    dest: ./tmp/screenshot-basic
+  - action: move_path
+    src: ./tmp/screenshot-basic
+    dest: ./resources/[standalone]/screenshot-basic
+
+  ## Database tables
+  - action: query_database
+    file: ./tmp/esx-legacy.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

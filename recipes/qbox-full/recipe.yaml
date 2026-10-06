@@ -1,0 +1,768 @@
+# Project Singularity recipe: Qbox (full)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$onesync: on
+name: "Qbox (full)"
+version: 1.0.0
+author: Project Singularity
+description: "Every Qbox resource with the ox stack, Renewed banking and weather, NPWD phone, appearance, voice and maps."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbox-full/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+
+  ## Database
+  - action: connect_database
+
+  ## Overextended
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[ox]/oxmysql
+  - action: download_file
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+    path: ./tmp/ox_lib.zip
+  - action: unzip
+    src: ./tmp/ox_lib.zip
+    dest: ./tmp/ox_lib
+  - action: move_path
+    src: ./tmp/ox_lib/ox_lib
+    dest: ./resources/[ox]/ox_lib
+  - action: download_file
+    url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
+    path: ./tmp/ox_target.zip
+  - action: unzip
+    src: ./tmp/ox_target.zip
+    dest: ./tmp/ox_target
+  - action: move_path
+    src: ./tmp/ox_target/ox_target
+    dest: ./resources/[ox]/ox_target
+  - action: download_file
+    url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
+    path: ./tmp/ox_inventory.zip
+  - action: unzip
+    src: ./tmp/ox_inventory.zip
+    dest: ./tmp/ox_inventory
+  - action: move_path
+    src: ./tmp/ox_inventory/ox_inventory
+    dest: ./resources/[ox]/ox_inventory
+  - action: download_file
+    url: https://github.com/overextended/ox_doorlock/releases/latest/download/ox_doorlock.zip
+    path: ./tmp/ox_doorlock.zip
+  - action: unzip
+    src: ./tmp/ox_doorlock.zip
+    dest: ./tmp/ox_doorlock
+  - action: move_path
+    src: ./tmp/ox_doorlock/ox_doorlock
+    dest: ./resources/[ox]/ox_doorlock
+  - action: download_file
+    url: https://github.com/overextended/ox_fuel/releases/latest/download/ox_fuel.zip
+    path: ./tmp/ox_fuel.zip
+  - action: unzip
+    src: ./tmp/ox_fuel.zip
+    dest: ./tmp/ox_fuel
+  - action: move_path
+    src: ./tmp/ox_fuel/ox_fuel
+    dest: ./resources/[ox]/ox_fuel
+  - action: download_file
+    url: https://raw.githubusercontent.com/Qbox-project/txAdminRecipe/main/items.lua
+    path: ./resources/[ox]/ox_inventory/data/items.lua
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_invimages/archive/refs/heads/main.zip
+    path: ./tmp/qbx_invimages.zip
+  - action: unzip
+    src: ./tmp/qbx_invimages.zip
+    dest: ./tmp/qbx_invimages
+  - action: move_path
+    src: ./tmp/qbx_invimages/qbx_invimages-main/images
+    dest: ./resources/[ox]/ox_inventory/web/images
+    overwrite: true
+
+  ## Qbox, every resource
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_core/releases/latest/download/qbx_core.zip
+    path: ./tmp/qbx_qbx_core.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_core.zip
+    dest: ./tmp/qbx_qbx_core
+  - action: move_path
+    src: ./tmp/qbx_qbx_core/qbx_core
+    dest: ./resources/[qbx]/qbx_core
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_adminmenu/releases/latest/download/qbx_adminmenu.zip
+    path: ./tmp/qbx_qbx_adminmenu.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_adminmenu.zip
+    dest: ./tmp/qbx_qbx_adminmenu
+  - action: move_path
+    src: ./tmp/qbx_qbx_adminmenu/qbx_adminmenu
+    dest: ./resources/[qbx]/qbx_adminmenu
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_binoculars/releases/latest/download/qbx_binoculars.zip
+    path: ./tmp/qbx_qbx_binoculars.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_binoculars.zip
+    dest: ./tmp/qbx_qbx_binoculars
+  - action: move_path
+    src: ./tmp/qbx_qbx_binoculars/qbx_binoculars
+    dest: ./resources/[qbx]/qbx_binoculars
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_density/releases/latest/download/qbx_density.zip
+    path: ./tmp/qbx_qbx_density.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_density.zip
+    dest: ./tmp/qbx_qbx_density
+  - action: move_path
+    src: ./tmp/qbx_qbx_density/qbx_density
+    dest: ./resources/[qbx]/qbx_density
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_divegear/releases/latest/download/qbx_divegear.zip
+    path: ./tmp/qbx_qbx_divegear.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_divegear.zip
+    dest: ./tmp/qbx_qbx_divegear
+  - action: move_path
+    src: ./tmp/qbx_qbx_divegear/qbx_divegear
+    dest: ./resources/[qbx]/qbx_divegear
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_diving/releases/latest/download/qbx_diving.zip
+    path: ./tmp/qbx_qbx_diving.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_diving.zip
+    dest: ./tmp/qbx_qbx_diving
+  - action: move_path
+    src: ./tmp/qbx_qbx_diving/qbx_diving
+    dest: ./resources/[qbx]/qbx_diving
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_fireworks/releases/latest/download/qbx_fireworks.zip
+    path: ./tmp/qbx_qbx_fireworks.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_fireworks.zip
+    dest: ./tmp/qbx_qbx_fireworks
+  - action: move_path
+    src: ./tmp/qbx_qbx_fireworks/qbx_fireworks
+    dest: ./resources/[qbx]/qbx_fireworks
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_garages/releases/latest/download/qbx_garages.zip
+    path: ./tmp/qbx_qbx_garages.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_garages.zip
+    dest: ./tmp/qbx_qbx_garages
+  - action: move_path
+    src: ./tmp/qbx_qbx_garages/qbx_garages
+    dest: ./resources/[qbx]/qbx_garages
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_hud/releases/latest/download/qbx_hud.zip
+    path: ./tmp/qbx_qbx_hud.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_hud.zip
+    dest: ./tmp/qbx_qbx_hud
+  - action: move_path
+    src: ./tmp/qbx_qbx_hud/qbx_hud
+    dest: ./resources/[qbx]/qbx_hud
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_management/releases/latest/download/qbx_management.zip
+    path: ./tmp/qbx_qbx_management.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_management.zip
+    dest: ./tmp/qbx_qbx_management
+  - action: move_path
+    src: ./tmp/qbx_qbx_management/qbx_management
+    dest: ./resources/[qbx]/qbx_management
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_radialmenu/releases/latest/download/qbx_radialmenu.zip
+    path: ./tmp/qbx_qbx_radialmenu.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_radialmenu.zip
+    dest: ./tmp/qbx_qbx_radialmenu
+  - action: move_path
+    src: ./tmp/qbx_qbx_radialmenu
+    dest: ./resources/[qbx]/qbx_radialmenu
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_smallresources/releases/latest/download/qbx_smallresources.zip
+    path: ./tmp/qbx_qbx_smallresources.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_smallresources.zip
+    dest: ./tmp/qbx_qbx_smallresources
+  - action: move_path
+    src: ./tmp/qbx_qbx_smallresources/qbx_smallresources
+    dest: ./resources/[qbx]/qbx_smallresources
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_spawn/releases/latest/download/qbx_spawn.zip
+    path: ./tmp/qbx_qbx_spawn.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_spawn.zip
+    dest: ./tmp/qbx_qbx_spawn
+  - action: move_path
+    src: ./tmp/qbx_qbx_spawn/qbx_spawn
+    dest: ./resources/[qbx]/qbx_spawn
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_truckrobbery/releases/latest/download/qbx_truckrobbery.zip
+    path: ./tmp/qbx_qbx_truckrobbery.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_truckrobbery.zip
+    dest: ./tmp/qbx_qbx_truckrobbery
+  - action: move_path
+    src: ./tmp/qbx_qbx_truckrobbery/qbx_truckrobbery
+    dest: ./resources/[qbx]/qbx_truckrobbery
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_vehiclekeys/releases/latest/download/qbx_vehiclekeys.zip
+    path: ./tmp/qbx_qbx_vehiclekeys.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_vehiclekeys.zip
+    dest: ./tmp/qbx_qbx_vehiclekeys
+  - action: move_path
+    src: ./tmp/qbx_qbx_vehiclekeys/qbx_vehiclekeys
+    dest: ./resources/[qbx]/qbx_vehiclekeys
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_vehicles/releases/latest/download/qbx_vehicles.zip
+    path: ./tmp/qbx_qbx_vehicles.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_vehicles.zip
+    dest: ./tmp/qbx_qbx_vehicles
+  - action: move_path
+    src: ./tmp/qbx_qbx_vehicles/qbx_vehicles
+    dest: ./resources/[qbx]/qbx_vehicles
+  - action: download_file
+    url: https://github.com/Qbox-project/mhacking/releases/latest/download/mhacking.zip
+    path: ./tmp/qbx_mhacking.zip
+  - action: unzip
+    src: ./tmp/qbx_mhacking.zip
+    dest: ./tmp/qbx_mhacking
+  - action: move_path
+    src: ./tmp/qbx_mhacking
+    dest: ./resources/[qbx]/mhacking
+  - action: download_file
+    url: https://github.com/Qbox-project/mm_radio/releases/latest/download/mm_radio.zip
+    path: ./tmp/qbx_mm_radio.zip
+  - action: unzip
+    src: ./tmp/qbx_mm_radio.zip
+    dest: ./tmp/qbx_mm_radio
+  - action: move_path
+    src: ./tmp/qbx_mm_radio/mm_radio
+    dest: ./resources/[voice]/mm_radio
+  - action: download_file
+    url: https://github.com/Qbox-project/npwd_qbx_garages/releases/latest/download/npwd_qbx_garages.zip
+    path: ./tmp/qbx_npwd_qbx_garages.zip
+  - action: unzip
+    src: ./tmp/qbx_npwd_qbx_garages.zip
+    dest: ./tmp/qbx_npwd_qbx_garages
+  - action: move_path
+    src: ./tmp/qbx_npwd_qbx_garages/npwd_qbx_garages
+    dest: ./resources/[npwd-apps]/npwd_qbx_garages
+  - action: download_file
+    url: https://github.com/Qbox-project/npwd_qbx_mail/releases/latest/download/npwd_qbx_mail.zip
+    path: ./tmp/qbx_npwd_qbx_mail.zip
+  - action: unzip
+    src: ./tmp/qbx_npwd_qbx_mail.zip
+    dest: ./tmp/qbx_npwd_qbx_mail
+  - action: move_path
+    src: ./tmp/qbx_npwd_qbx_mail/npwd_qbx_mail
+    dest: ./resources/[npwd-apps]/npwd_qbx_mail
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_ambulancejob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_ambulancejob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_ambulancejob.zip
+    dest: ./tmp/qbx_qbx_ambulancejob
+  - action: move_path
+    src: ./tmp/qbx_qbx_ambulancejob/qbx_ambulancejob-main
+    dest: ./resources/[qbx]/qbx_ambulancejob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_bankrobbery/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_bankrobbery.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_bankrobbery.zip
+    dest: ./tmp/qbx_qbx_bankrobbery
+  - action: move_path
+    src: ./tmp/qbx_qbx_bankrobbery/qbx_bankrobbery-main
+    dest: ./resources/[qbx]/qbx_bankrobbery
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_busjob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_busjob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_busjob.zip
+    dest: ./tmp/qbx_qbx_busjob
+  - action: move_path
+    src: ./tmp/qbx_qbx_busjob/qbx_busjob-main
+    dest: ./resources/[qbx]/qbx_busjob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_carwash/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_carwash.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_carwash.zip
+    dest: ./tmp/qbx_qbx_carwash
+  - action: move_path
+    src: ./tmp/qbx_qbx_carwash/qbx_carwash-main
+    dest: ./resources/[qbx]/qbx_carwash
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_chat_theme/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_chat_theme.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_chat_theme.zip
+    dest: ./tmp/qbx_qbx_chat_theme
+  - action: move_path
+    src: ./tmp/qbx_qbx_chat_theme/qbx_chat_theme-main
+    dest: ./resources/[qbx]/qbx_chat_theme
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_cityhall/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_cityhall.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_cityhall.zip
+    dest: ./tmp/qbx_qbx_cityhall
+  - action: move_path
+    src: ./tmp/qbx_qbx_cityhall/qbx_cityhall-main
+    dest: ./resources/[qbx]/qbx_cityhall
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_drugs/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_drugs.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_drugs.zip
+    dest: ./tmp/qbx_qbx_drugs
+  - action: move_path
+    src: ./tmp/qbx_qbx_drugs/qbx_drugs-main
+    dest: ./resources/[qbx]/qbx_drugs
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_garbagejob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_garbagejob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_garbagejob.zip
+    dest: ./tmp/qbx_qbx_garbagejob
+  - action: move_path
+    src: ./tmp/qbx_qbx_garbagejob/qbx_garbagejob-main
+    dest: ./resources/[qbx]/qbx_garbagejob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_houserobbery/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_houserobbery.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_houserobbery.zip
+    dest: ./tmp/qbx_qbx_houserobbery
+  - action: move_path
+    src: ./tmp/qbx_qbx_houserobbery/qbx_houserobbery-main
+    dest: ./resources/[qbx]/qbx_houserobbery
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_jewelery/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_jewelery.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_jewelery.zip
+    dest: ./tmp/qbx_qbx_jewelery
+  - action: move_path
+    src: ./tmp/qbx_qbx_jewelery/qbx_jewelery-main
+    dest: ./resources/[qbx]/qbx_jewelery
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_lapraces/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_lapraces.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_lapraces.zip
+    dest: ./tmp/qbx_qbx_lapraces
+  - action: move_path
+    src: ./tmp/qbx_qbx_lapraces/qbx_lapraces-main
+    dest: ./resources/[qbx]/qbx_lapraces
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_mechanicjob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_mechanicjob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_mechanicjob.zip
+    dest: ./tmp/qbx_qbx_mechanicjob
+  - action: move_path
+    src: ./tmp/qbx_qbx_mechanicjob/qbx_mechanicjob-main
+    dest: ./resources/[qbx]/qbx_mechanicjob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_medical/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_medical.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_medical.zip
+    dest: ./tmp/qbx_qbx_medical
+  - action: move_path
+    src: ./tmp/qbx_qbx_medical/qbx_medical-main
+    dest: ./resources/[qbx]/qbx_medical
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_newsjob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_newsjob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_newsjob.zip
+    dest: ./tmp/qbx_qbx_newsjob
+  - action: move_path
+    src: ./tmp/qbx_qbx_newsjob/qbx_newsjob-main
+    dest: ./resources/[qbx]/qbx_newsjob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_npwd/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_npwd.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_npwd.zip
+    dest: ./tmp/qbx_qbx_npwd
+  - action: move_path
+    src: ./tmp/qbx_qbx_npwd/qbx_npwd-main
+    dest: ./resources/[npwd]/qbx_npwd
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_pawnshop/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_pawnshop.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_pawnshop.zip
+    dest: ./tmp/qbx_qbx_pawnshop
+  - action: move_path
+    src: ./tmp/qbx_qbx_pawnshop/qbx_pawnshop-main
+    dest: ./resources/[qbx]/qbx_pawnshop
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_police/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_police.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_police.zip
+    dest: ./tmp/qbx_qbx_police
+  - action: move_path
+    src: ./tmp/qbx_qbx_police/qbx_police-main
+    dest: ./resources/[qbx]/qbx_police
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_properties/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_properties.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_properties.zip
+    dest: ./tmp/qbx_qbx_properties
+  - action: move_path
+    src: ./tmp/qbx_qbx_properties/qbx_properties-main
+    dest: ./resources/[qbx]/qbx_properties
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_recyclejob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_recyclejob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_recyclejob.zip
+    dest: ./tmp/qbx_qbx_recyclejob
+  - action: move_path
+    src: ./tmp/qbx_qbx_recyclejob/qbx_recyclejob-main
+    dest: ./resources/[qbx]/qbx_recyclejob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_scoreboard/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_scoreboard.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_scoreboard.zip
+    dest: ./tmp/qbx_qbx_scoreboard
+  - action: move_path
+    src: ./tmp/qbx_qbx_scoreboard/qbx_scoreboard-main
+    dest: ./resources/[qbx]/qbx_scoreboard
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_scrapyard/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_scrapyard.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_scrapyard.zip
+    dest: ./tmp/qbx_qbx_scrapyard
+  - action: move_path
+    src: ./tmp/qbx_qbx_scrapyard/qbx_scrapyard-main
+    dest: ./resources/[qbx]/qbx_scrapyard
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_seatbelt/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_seatbelt.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_seatbelt.zip
+    dest: ./tmp/qbx_qbx_seatbelt
+  - action: move_path
+    src: ./tmp/qbx_qbx_seatbelt/qbx_seatbelt-main
+    dest: ./resources/[qbx]/qbx_seatbelt
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_storerobbery/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_storerobbery.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_storerobbery.zip
+    dest: ./tmp/qbx_qbx_storerobbery
+  - action: move_path
+    src: ./tmp/qbx_qbx_storerobbery/qbx_storerobbery-main
+    dest: ./resources/[qbx]/qbx_storerobbery
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_streetraces/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_streetraces.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_streetraces.zip
+    dest: ./tmp/qbx_qbx_streetraces
+  - action: move_path
+    src: ./tmp/qbx_qbx_streetraces/qbx_streetraces-main
+    dest: ./resources/[qbx]/qbx_streetraces
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_taxijob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_taxijob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_taxijob.zip
+    dest: ./tmp/qbx_qbx_taxijob
+  - action: move_path
+    src: ./tmp/qbx_qbx_taxijob/qbx_taxijob-main
+    dest: ./resources/[qbx]/qbx_taxijob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_towjob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_towjob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_towjob.zip
+    dest: ./tmp/qbx_qbx_towjob
+  - action: move_path
+    src: ./tmp/qbx_qbx_towjob/qbx_towjob-main
+    dest: ./resources/[qbx]/qbx_towjob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_truckerjob/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_truckerjob.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_truckerjob.zip
+    dest: ./tmp/qbx_qbx_truckerjob
+  - action: move_path
+    src: ./tmp/qbx_qbx_truckerjob/qbx_truckerjob-main
+    dest: ./resources/[qbx]/qbx_truckerjob
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_vehiclesales/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_vehiclesales.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_vehiclesales.zip
+    dest: ./tmp/qbx_qbx_vehiclesales
+  - action: move_path
+    src: ./tmp/qbx_qbx_vehiclesales/qbx_vehiclesales-main
+    dest: ./resources/[qbx]/qbx_vehiclesales
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_vehicleshop/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_vehicleshop.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_vehicleshop.zip
+    dest: ./tmp/qbx_qbx_vehicleshop
+  - action: move_path
+    src: ./tmp/qbx_qbx_vehicleshop/qbx_vehicleshop-main
+    dest: ./resources/[qbx]/qbx_vehicleshop
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_vineyard/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_vineyard.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_vineyard.zip
+    dest: ./tmp/qbx_qbx_vineyard
+  - action: move_path
+    src: ./tmp/qbx_qbx_vineyard/qbx_vineyard-main
+    dest: ./resources/[qbx]/qbx_vineyard
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_weed/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_weed.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_weed.zip
+    dest: ./tmp/qbx_qbx_weed
+  - action: move_path
+    src: ./tmp/qbx_qbx_weed/qbx_weed-main
+    dest: ./resources/[qbx]/qbx_weed
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_idcard/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_idcard.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_idcard.zip
+    dest: ./tmp/qbx_qbx_idcard
+  - action: move_path
+    src: ./tmp/qbx_qbx_idcard/qbx_idcard-main
+    dest: ./resources/[qbx]/qbx_idcard
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_customs/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_customs.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_customs.zip
+    dest: ./tmp/qbx_qbx_customs
+  - action: move_path
+    src: ./tmp/qbx_qbx_customs/qbx_customs-main
+    dest: ./resources/[qbx]/qbx_customs
+  - action: download_file
+    url: https://github.com/Qbox-project/safecracker/archive/refs/heads/main.zip
+    path: ./tmp/qbx_safecracker.zip
+  - action: unzip
+    src: ./tmp/qbx_safecracker.zip
+    dest: ./tmp/qbx_safecracker
+  - action: move_path
+    src: ./tmp/qbx_safecracker/safecracker-main
+    dest: ./resources/[standalone]/safecracker
+
+  ## Standalone resources Qbox works with
+  - action: download_file
+    url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+    path: ./tmp/illenium-appearance.zip
+  - action: unzip
+    src: ./tmp/illenium-appearance.zip
+    dest: ./tmp/illenium-appearance
+  - action: move_path
+    src: ./tmp/illenium-appearance/illenium-appearance
+    dest: ./resources/[standalone]/illenium-appearance
+  - action: download_file
+    url: https://github.com/Renewed-Scripts/Renewed-Banking/releases/latest/download/Renewed-Banking.zip
+    path: ./tmp/Renewed-Banking.zip
+  - action: unzip
+    src: ./tmp/Renewed-Banking.zip
+    dest: ./tmp/Renewed-Banking
+  - action: move_path
+    src: ./tmp/Renewed-Banking/Renewed-Banking
+    dest: ./resources/[standalone]/Renewed-Banking
+  - action: download_file
+    url: https://github.com/Renewed-Scripts/Renewed-Weathersync/releases/latest/download/Renewed-Weathersync.zip
+    path: ./tmp/Renewed-Weathersync.zip
+  - action: unzip
+    src: ./tmp/Renewed-Weathersync.zip
+    dest: ./tmp/Renewed-Weathersync
+  - action: move_path
+    src: ./tmp/Renewed-Weathersync/Renewed-Weathersync
+    dest: ./resources/[standalone]/Renewed-Weathersync
+  - action: download_file
+    url: https://github.com/xT-Development/xt-prison/releases/latest/download/xt-prison.zip
+    path: ./tmp/xt-prison.zip
+  - action: unzip
+    src: ./tmp/xt-prison.zip
+    dest: ./tmp/xt-prison
+  - action: move_path
+    src: ./tmp/xt-prison/xt-prison
+    dest: ./resources/[standalone]/xt-prison
+  - action: download_file
+    url: https://github.com/QuantumMalice/vehiclehandler/releases/latest/download/vehiclehandler.zip
+    path: ./tmp/vehiclehandler.zip
+  - action: unzip
+    src: ./tmp/vehiclehandler.zip
+    dest: ./tmp/vehiclehandler
+  - action: move_path
+    src: ./tmp/vehiclehandler/vehiclehandler
+    dest: ./resources/[standalone]/vehiclehandler
+  - action: download_file
+    url: https://github.com/Manason/mana_audio/releases/latest/download/mana_audio.zip
+    path: ./tmp/mana_audio.zip
+  - action: unzip
+    src: ./tmp/mana_audio.zip
+    dest: ./tmp/mana_audio
+  - action: move_path
+    src: ./tmp/mana_audio/mana_audio
+    dest: ./resources/[standalone]/mana_audio
+  - action: download_file
+    url: https://github.com/D4isDAVID/loadscreen/releases/latest/download/loadscreen.zip
+    path: ./tmp/loadscreen.zip
+  - action: unzip
+    src: ./tmp/loadscreen.zip
+    dest: ./tmp/loadscreen
+  - action: move_path
+    src: ./tmp/loadscreen/loadscreen
+    dest: ./resources/[standalone]/loadscreen
+  - action: download_file
+    url: https://github.com/itschip/screencapture/releases/latest/download/screencapture.zip
+    path: ./tmp/screencapture.zip
+  - action: unzip
+    src: ./tmp/screencapture.zip
+    dest: ./tmp/screencapture
+  - action: move_path
+    src: ./tmp/screencapture/screencapture
+    dest: ./resources/[standalone]/screencapture
+  - action: download_file
+    url: https://github.com/Scullyy/scully_emotemenu/archive/refs/heads/main.zip
+    path: ./tmp/scully_emotemenu.zip
+  - action: unzip
+    src: ./tmp/scully_emotemenu.zip
+    dest: ./tmp/scully_emotemenu
+  - action: move_path
+    src: ./tmp/scully_emotemenu/scully_emotemenu-main
+    dest: ./resources/[standalone]/scully_emotemenu
+  - action: download_file
+    url: https://github.com/BaziForYou/MugShotBase64/archive/refs/heads/main.zip
+    path: ./tmp/MugShotBase64.zip
+  - action: unzip
+    src: ./tmp/MugShotBase64.zip
+    dest: ./tmp/MugShotBase64
+  - action: move_path
+    src: ./tmp/MugShotBase64/MugShotBase64-main/MugShotBase64
+    dest: ./resources/[standalone]/MugShotBase64
+  - action: download_file
+    url: https://github.com/ultrahacx/ultra-voltlab/archive/refs/heads/main.zip
+    path: ./tmp/ultra-voltlab.zip
+  - action: unzip
+    src: ./tmp/ultra-voltlab.zip
+    dest: ./tmp/ultra-voltlab
+  - action: move_path
+    src: ./tmp/ultra-voltlab/ultra-voltlab-main
+    dest: ./resources/[standalone]/ultra-voltlab
+  - action: download_file
+    url: https://github.com/Bob74/bob74_ipl/archive/refs/heads/master.zip
+    path: ./tmp/bob74_ipl.zip
+  - action: unzip
+    src: ./tmp/bob74_ipl.zip
+    dest: ./tmp/bob74_ipl
+  - action: move_path
+    src: ./tmp/bob74_ipl/bob74_ipl-master
+    dest: ./resources/[standalone]/bob74_ipl
+
+  ## Voice and phone
+  - action: download_file
+    url: https://github.com/AvarianKnight/pma-voice/archive/refs/heads/main.zip
+    path: ./tmp/pma-voice.zip
+  - action: unzip
+    src: ./tmp/pma-voice.zip
+    dest: ./tmp/pma-voice
+  - action: move_path
+    src: ./tmp/pma-voice/pma-voice-main
+    dest: ./resources/[voice]/pma-voice
+  - action: download_file
+    url: https://github.com/project-error/npwd/releases/download/3.16.0/npwd.zip
+    path: ./tmp/npwd-3_16_0.zip
+  - action: unzip
+    src: ./tmp/npwd-3_16_0.zip
+    dest: ./tmp/npwd-3_16_0
+  - action: move_path
+    src: ./tmp/npwd-3_16_0/npwd
+    dest: ./resources/[npwd]/npwd
+  - action: move_path
+    src: ./resources/[npwd]/qbx_npwd/config.json
+    dest: ./resources/[npwd]/npwd/config.json
+    overwrite: true
+
+  ## Maps
+  - action: download_file
+    url: https://github.com/Lorenc95/pillbox/archive/refs/heads/main.zip
+    path: ./tmp/pillbox.zip
+  - action: unzip
+    src: ./tmp/pillbox.zip
+    dest: ./tmp/pillbox
+  - action: move_path
+    src: ./tmp/pillbox/pillbox-main
+    dest: ./resources/[assets]/pillbox
+
+  ## Database tables
+  - action: query_database
+    file: ./resources/[qbx]/qbx_core/qbx_core.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_vehicles/vehicles.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_vehiclesales/qbx_vehiclesales.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_vehicleshop/vehshop.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_weed/sql/qbx_weed.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_lapraces/qbx_lapraces.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_drugs/qbx_drugs.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_properties/property.sql
+  - action: query_database
+    file: ./resources/[qbx]/qbx_properties/decorations.sql
+  - action: query_database
+    file: ./resources/[standalone]/illenium-appearance/sql/playerskins.sql
+  - action: query_database
+    file: ./resources/[standalone]/illenium-appearance/sql/player_outfits.sql
+  - action: query_database
+    file: ./resources/[ox]/ox_doorlock/sql/ox_doorlock.sql
+  - action: query_database
+    file: ./resources/[npwd]/npwd/import.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

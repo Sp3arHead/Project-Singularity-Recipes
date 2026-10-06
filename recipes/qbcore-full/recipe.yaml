@@ -1,0 +1,718 @@
+# Project Singularity recipe: QBCore (full)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$onesync: on
+name: "QBCore (full)"
+version: 1.0.0
+author: Project Singularity
+description: "Every resource the QBCore team publishes: all jobs, robberies, housing, vehicles, phone, admin menu, maps and voice."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbcore-full/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[gamemodes]/basic-gamemode
+    dest: ./resources/[cfx]/basic-gamemode
+
+  ## Database
+  - action: connect_database
+
+  ## Libraries and standalone resources
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[standalone]/oxmysql
+  - action: download_file
+    url: https://github.com/qbcore-fivem/PolyZone/archive/refs/heads/master.zip
+    path: ./tmp/qb_PolyZone.zip
+  - action: unzip
+    src: ./tmp/qb_PolyZone.zip
+    dest: ./tmp/qb_PolyZone
+  - action: move_path
+    src: ./tmp/qb_PolyZone/PolyZone-master
+    dest: ./resources/[standalone]/PolyZone
+  - action: download_file
+    url: https://github.com/qbcore-fivem/menuv/archive/refs/heads/master.zip
+    path: ./tmp/qb_menuv.zip
+  - action: unzip
+    src: ./tmp/qb_menuv.zip
+    dest: ./tmp/qb_menuv
+  - action: move_path
+    src: ./tmp/qb_menuv/menuv-master
+    dest: ./resources/[standalone]/menuv
+  - action: download_file
+    url: https://github.com/qbcore-fivem/progressbar/archive/refs/heads/main.zip
+    path: ./tmp/qb_progressbar.zip
+  - action: unzip
+    src: ./tmp/qb_progressbar.zip
+    dest: ./tmp/qb_progressbar
+  - action: move_path
+    src: ./tmp/qb_progressbar/progressbar-main
+    dest: ./resources/[standalone]/progressbar
+  - action: download_file
+    url: https://github.com/qbcore-fivem/interact-sound/archive/refs/heads/master.zip
+    path: ./tmp/qb_interact-sound.zip
+  - action: unzip
+    src: ./tmp/qb_interact-sound.zip
+    dest: ./tmp/qb_interact-sound
+  - action: move_path
+    src: ./tmp/qb_interact-sound/interact-sound-master
+    dest: ./resources/[standalone]/interact-sound
+  - action: download_file
+    url: https://github.com/qbcore-fivem/safecracker/archive/refs/heads/main.zip
+    path: ./tmp/qb_safecracker.zip
+  - action: unzip
+    src: ./tmp/qb_safecracker.zip
+    dest: ./tmp/qb_safecracker
+  - action: move_path
+    src: ./tmp/qb_safecracker/safecracker-main
+    dest: ./resources/[standalone]/safecracker
+  - action: download_file
+    url: https://github.com/qbcore-fivem/bob74_ipl/archive/refs/heads/master.zip
+    path: ./tmp/qb_bob74_ipl.zip
+  - action: unzip
+    src: ./tmp/qb_bob74_ipl.zip
+    dest: ./tmp/qb_bob74_ipl
+  - action: move_path
+    src: ./tmp/qb_bob74_ipl/bob74_ipl-master
+    dest: ./resources/[standalone]/bob74_ipl
+  - action: download_file
+    url: https://github.com/project-error/screenshot-basic/releases/download/1.0.1/screenshot-basic.zip
+    path: ./tmp/screenshot-basic.zip
+  - action: unzip
+    src: ./tmp/screenshot-basic.zip
+    dest: ./tmp/screenshot-basic
+  - action: move_path
+    src: ./tmp/screenshot-basic
+    dest: ./resources/[standalone]/screenshot-basic
+
+  ## Voice
+  - action: download_file
+    url: https://github.com/AvarianKnight/pma-voice/archive/refs/heads/main.zip
+    path: ./tmp/pma-voice.zip
+  - action: unzip
+    src: ./tmp/pma-voice.zip
+    dest: ./tmp/pma-voice
+  - action: move_path
+    src: ./tmp/pma-voice/pma-voice-main
+    dest: ./resources/[voice]/pma-voice
+
+  ## Maps
+  - action: download_file
+    url: https://github.com/qbcore-fivem/dealer_map/archive/refs/heads/main.zip
+    path: ./tmp/qb_dealer_map.zip
+  - action: unzip
+    src: ./tmp/qb_dealer_map.zip
+    dest: ./tmp/qb_dealer_map
+  - action: move_path
+    src: ./tmp/qb_dealer_map/dealer_map-main
+    dest: ./resources/[defaultmaps]/dealer_map
+  - action: download_file
+    url: https://github.com/qbcore-fivem/hospital_map/archive/refs/heads/main.zip
+    path: ./tmp/qb_hospital_map.zip
+  - action: unzip
+    src: ./tmp/qb_hospital_map.zip
+    dest: ./tmp/qb_hospital_map
+  - action: move_path
+    src: ./tmp/qb_hospital_map/hospital_map-main
+    dest: ./resources/[defaultmaps]/hospital_map
+  - action: download_file
+    url: https://github.com/qbcore-fivem/prison_map/archive/refs/heads/main.zip
+    path: ./tmp/qb_prison_map.zip
+  - action: unzip
+    src: ./tmp/qb_prison_map.zip
+    dest: ./tmp/qb_prison_map
+  - action: move_path
+    src: ./tmp/qb_prison_map/prison_map-main
+    dest: ./resources/[defaultmaps]/[prison_map]
+
+  ## QBCore, every resource
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-adminmenu/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-adminmenu.zip
+  - action: unzip
+    src: ./tmp/qb_qb-adminmenu.zip
+    dest: ./tmp/qb_qb-adminmenu
+  - action: move_path
+    src: ./tmp/qb_qb-adminmenu/qb-adminmenu-main
+    dest: ./resources/[qb]/qb-adminmenu
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-ambulancejob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-ambulancejob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-ambulancejob.zip
+    dest: ./tmp/qb_qb-ambulancejob
+  - action: move_path
+    src: ./tmp/qb_qb-ambulancejob/qb-ambulancejob-main
+    dest: ./resources/[qb]/qb-ambulancejob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-apartments/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-apartments.zip
+  - action: unzip
+    src: ./tmp/qb_qb-apartments.zip
+    dest: ./tmp/qb_qb-apartments
+  - action: move_path
+    src: ./tmp/qb_qb-apartments/qb-apartments-main
+    dest: ./resources/[qb]/qb-apartments
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-banking/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-banking.zip
+  - action: unzip
+    src: ./tmp/qb_qb-banking.zip
+    dest: ./tmp/qb_qb-banking
+  - action: move_path
+    src: ./tmp/qb_qb-banking/qb-banking-main
+    dest: ./resources/[qb]/qb-banking
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-bankrobbery/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-bankrobbery.zip
+  - action: unzip
+    src: ./tmp/qb_qb-bankrobbery.zip
+    dest: ./tmp/qb_qb-bankrobbery
+  - action: move_path
+    src: ./tmp/qb_qb-bankrobbery/qb-bankrobbery-main
+    dest: ./resources/[qb]/qb-bankrobbery
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-busjob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-busjob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-busjob.zip
+    dest: ./tmp/qb_qb-busjob
+  - action: move_path
+    src: ./tmp/qb_qb-busjob/qb-busjob-main
+    dest: ./resources/[qb]/qb-busjob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-cityhall/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-cityhall.zip
+  - action: unzip
+    src: ./tmp/qb_qb-cityhall.zip
+    dest: ./tmp/qb_qb-cityhall
+  - action: move_path
+    src: ./tmp/qb_qb-cityhall/qb-cityhall-main
+    dest: ./resources/[qb]/qb-cityhall
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-clothing/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-clothing.zip
+  - action: unzip
+    src: ./tmp/qb_qb-clothing.zip
+    dest: ./tmp/qb_qb-clothing
+  - action: move_path
+    src: ./tmp/qb_qb-clothing/qb-clothing-main
+    dest: ./resources/[qb]/qb-clothing
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-core/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-core.zip
+  - action: unzip
+    src: ./tmp/qb_qb-core.zip
+    dest: ./tmp/qb_qb-core
+  - action: move_path
+    src: ./tmp/qb_qb-core/qb-core-main
+    dest: ./resources/[qb]/qb-core
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-crafting/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-crafting.zip
+  - action: unzip
+    src: ./tmp/qb_qb-crafting.zip
+    dest: ./tmp/qb_qb-crafting
+  - action: move_path
+    src: ./tmp/qb_qb-crafting/qb-crafting-main
+    dest: ./resources/[qb]/qb-crafting
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-crypto/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-crypto.zip
+  - action: unzip
+    src: ./tmp/qb_qb-crypto.zip
+    dest: ./tmp/qb_qb-crypto
+  - action: move_path
+    src: ./tmp/qb_qb-crypto/qb-crypto-main
+    dest: ./resources/[qb]/qb-crypto
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-diving/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-diving.zip
+  - action: unzip
+    src: ./tmp/qb_qb-diving.zip
+    dest: ./tmp/qb_qb-diving
+  - action: move_path
+    src: ./tmp/qb_qb-diving/qb-diving-main
+    dest: ./resources/[qb]/qb-diving
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-doorlock/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-doorlock.zip
+  - action: unzip
+    src: ./tmp/qb_qb-doorlock.zip
+    dest: ./tmp/qb_qb-doorlock
+  - action: move_path
+    src: ./tmp/qb_qb-doorlock/qb-doorlock-main
+    dest: ./resources/[qb]/qb-doorlock
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-drugs/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-drugs.zip
+  - action: unzip
+    src: ./tmp/qb_qb-drugs.zip
+    dest: ./tmp/qb_qb-drugs
+  - action: move_path
+    src: ./tmp/qb_qb-drugs/qb-drugs-main
+    dest: ./resources/[qb]/qb-drugs
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-fuel/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-fuel.zip
+  - action: unzip
+    src: ./tmp/qb_qb-fuel.zip
+    dest: ./tmp/qb_qb-fuel
+  - action: move_path
+    src: ./tmp/qb_qb-fuel/qb-fuel-main
+    dest: ./resources/[qb]/qb-fuel
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-garages/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-garages.zip
+  - action: unzip
+    src: ./tmp/qb_qb-garages.zip
+    dest: ./tmp/qb_qb-garages
+  - action: move_path
+    src: ./tmp/qb_qb-garages/qb-garages-main
+    dest: ./resources/[qb]/qb-garages
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-garbagejob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-garbagejob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-garbagejob.zip
+    dest: ./tmp/qb_qb-garbagejob
+  - action: move_path
+    src: ./tmp/qb_qb-garbagejob/qb-garbagejob-main
+    dest: ./resources/[qb]/qb-garbagejob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-hotdogjob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-hotdogjob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-hotdogjob.zip
+    dest: ./tmp/qb_qb-hotdogjob
+  - action: move_path
+    src: ./tmp/qb_qb-hotdogjob/qb-hotdogjob-main
+    dest: ./resources/[qb]/qb-hotdogjob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-houserobbery/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-houserobbery.zip
+  - action: unzip
+    src: ./tmp/qb_qb-houserobbery.zip
+    dest: ./tmp/qb_qb-houserobbery
+  - action: move_path
+    src: ./tmp/qb_qb-houserobbery/qb-houserobbery-main
+    dest: ./resources/[qb]/qb-houserobbery
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-houses/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-houses.zip
+  - action: unzip
+    src: ./tmp/qb_qb-houses.zip
+    dest: ./tmp/qb_qb-houses
+  - action: move_path
+    src: ./tmp/qb_qb-houses/qb-houses-main
+    dest: ./resources/[qb]/qb-houses
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-hud/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-hud.zip
+  - action: unzip
+    src: ./tmp/qb_qb-hud.zip
+    dest: ./tmp/qb_qb-hud
+  - action: move_path
+    src: ./tmp/qb_qb-hud/qb-hud-main
+    dest: ./resources/[qb]/qb-hud
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-input/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-input.zip
+  - action: unzip
+    src: ./tmp/qb_qb-input.zip
+    dest: ./tmp/qb_qb-input
+  - action: move_path
+    src: ./tmp/qb_qb-input/qb-input-main
+    dest: ./resources/[qb]/qb-input
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-interior/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-interior.zip
+  - action: unzip
+    src: ./tmp/qb_qb-interior.zip
+    dest: ./tmp/qb_qb-interior
+  - action: move_path
+    src: ./tmp/qb_qb-interior/qb-interior-main
+    dest: ./resources/[qb]/qb-interior
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-inventory/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-inventory.zip
+  - action: unzip
+    src: ./tmp/qb_qb-inventory.zip
+    dest: ./tmp/qb_qb-inventory
+  - action: move_path
+    src: ./tmp/qb_qb-inventory/qb-inventory-main
+    dest: ./resources/[qb]/qb-inventory
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-jewelery/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-jewelery.zip
+  - action: unzip
+    src: ./tmp/qb_qb-jewelery.zip
+    dest: ./tmp/qb_qb-jewelery
+  - action: move_path
+    src: ./tmp/qb_qb-jewelery/qb-jewelery-main
+    dest: ./resources/[qb]/qb-jewelery
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-lapraces/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-lapraces.zip
+  - action: unzip
+    src: ./tmp/qb_qb-lapraces.zip
+    dest: ./tmp/qb_qb-lapraces
+  - action: move_path
+    src: ./tmp/qb_qb-lapraces/qb-lapraces-main
+    dest: ./resources/[qb]/qb-lapraces
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-loading/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-loading.zip
+  - action: unzip
+    src: ./tmp/qb_qb-loading.zip
+    dest: ./tmp/qb_qb-loading
+  - action: move_path
+    src: ./tmp/qb_qb-loading/qb-loading-main
+    dest: ./resources/[qb]/qb-loading
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-management/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-management.zip
+  - action: unzip
+    src: ./tmp/qb_qb-management.zip
+    dest: ./tmp/qb_qb-management
+  - action: move_path
+    src: ./tmp/qb_qb-management/qb-management-main
+    dest: ./resources/[qb]/qb-management
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-mechanicjob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-mechanicjob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-mechanicjob.zip
+    dest: ./tmp/qb_qb-mechanicjob
+  - action: move_path
+    src: ./tmp/qb_qb-mechanicjob/qb-mechanicjob-main
+    dest: ./resources/[qb]/qb-mechanicjob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-menu/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-menu.zip
+  - action: unzip
+    src: ./tmp/qb_qb-menu.zip
+    dest: ./tmp/qb_qb-menu
+  - action: move_path
+    src: ./tmp/qb_qb-menu/qb-menu-main
+    dest: ./resources/[qb]/qb-menu
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-minigames/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-minigames.zip
+  - action: unzip
+    src: ./tmp/qb_qb-minigames.zip
+    dest: ./tmp/qb_qb-minigames
+  - action: move_path
+    src: ./tmp/qb_qb-minigames/qb-minigames-main
+    dest: ./resources/[qb]/qb-minigames
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-multicharacter/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-multicharacter.zip
+  - action: unzip
+    src: ./tmp/qb_qb-multicharacter.zip
+    dest: ./tmp/qb_qb-multicharacter
+  - action: move_path
+    src: ./tmp/qb_qb-multicharacter/qb-multicharacter-main
+    dest: ./resources/[qb]/qb-multicharacter
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-newsjob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-newsjob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-newsjob.zip
+    dest: ./tmp/qb_qb-newsjob
+  - action: move_path
+    src: ./tmp/qb_qb-newsjob/qb-newsjob-main
+    dest: ./resources/[qb]/qb-newsjob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-pawnshop/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-pawnshop.zip
+  - action: unzip
+    src: ./tmp/qb_qb-pawnshop.zip
+    dest: ./tmp/qb_qb-pawnshop
+  - action: move_path
+    src: ./tmp/qb_qb-pawnshop/qb-pawnshop-main
+    dest: ./resources/[qb]/qb-pawnshop
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-phone/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-phone.zip
+  - action: unzip
+    src: ./tmp/qb_qb-phone.zip
+    dest: ./tmp/qb_qb-phone
+  - action: move_path
+    src: ./tmp/qb_qb-phone/qb-phone-main
+    dest: ./resources/[qb]/qb-phone
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-policejob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-policejob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-policejob.zip
+    dest: ./tmp/qb_qb-policejob
+  - action: move_path
+    src: ./tmp/qb_qb-policejob/qb-policejob-main
+    dest: ./resources/[qb]/qb-policejob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-prison/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-prison.zip
+  - action: unzip
+    src: ./tmp/qb_qb-prison.zip
+    dest: ./tmp/qb_qb-prison
+  - action: move_path
+    src: ./tmp/qb_qb-prison/qb-prison-main
+    dest: ./resources/[qb]/qb-prison
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-radialmenu/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-radialmenu.zip
+  - action: unzip
+    src: ./tmp/qb_qb-radialmenu.zip
+    dest: ./tmp/qb_qb-radialmenu
+  - action: move_path
+    src: ./tmp/qb_qb-radialmenu/qb-radialmenu-main
+    dest: ./resources/[qb]/qb-radialmenu
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-radio/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-radio.zip
+  - action: unzip
+    src: ./tmp/qb_qb-radio.zip
+    dest: ./tmp/qb_qb-radio
+  - action: move_path
+    src: ./tmp/qb_qb-radio/qb-radio-main
+    dest: ./resources/[qb]/qb-radio
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-recyclejob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-recyclejob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-recyclejob.zip
+    dest: ./tmp/qb_qb-recyclejob
+  - action: move_path
+    src: ./tmp/qb_qb-recyclejob/qb-recyclejob-main
+    dest: ./resources/[qb]/qb-recyclejob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-scoreboard/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-scoreboard.zip
+  - action: unzip
+    src: ./tmp/qb_qb-scoreboard.zip
+    dest: ./tmp/qb_qb-scoreboard
+  - action: move_path
+    src: ./tmp/qb_qb-scoreboard/qb-scoreboard-main
+    dest: ./resources/[qb]/qb-scoreboard
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-scrapyard/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-scrapyard.zip
+  - action: unzip
+    src: ./tmp/qb_qb-scrapyard.zip
+    dest: ./tmp/qb_qb-scrapyard
+  - action: move_path
+    src: ./tmp/qb_qb-scrapyard/qb-scrapyard-main
+    dest: ./resources/[qb]/qb-scrapyard
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-shops/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-shops.zip
+  - action: unzip
+    src: ./tmp/qb_qb-shops.zip
+    dest: ./tmp/qb_qb-shops
+  - action: move_path
+    src: ./tmp/qb_qb-shops/qb-shops-main
+    dest: ./resources/[qb]/qb-shops
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-smallresources/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-smallresources.zip
+  - action: unzip
+    src: ./tmp/qb_qb-smallresources.zip
+    dest: ./tmp/qb_qb-smallresources
+  - action: move_path
+    src: ./tmp/qb_qb-smallresources/qb-smallresources-main
+    dest: ./resources/[qb]/qb-smallresources
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-spawn/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-spawn.zip
+  - action: unzip
+    src: ./tmp/qb_qb-spawn.zip
+    dest: ./tmp/qb_qb-spawn
+  - action: move_path
+    src: ./tmp/qb_qb-spawn/qb-spawn-main
+    dest: ./resources/[qb]/qb-spawn
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-storerobbery/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-storerobbery.zip
+  - action: unzip
+    src: ./tmp/qb_qb-storerobbery.zip
+    dest: ./tmp/qb_qb-storerobbery
+  - action: move_path
+    src: ./tmp/qb_qb-storerobbery/qb-storerobbery-main
+    dest: ./resources/[qb]/qb-storerobbery
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-streetraces/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-streetraces.zip
+  - action: unzip
+    src: ./tmp/qb_qb-streetraces.zip
+    dest: ./tmp/qb_qb-streetraces
+  - action: move_path
+    src: ./tmp/qb_qb-streetraces/qb-streetraces-main
+    dest: ./resources/[qb]/qb-streetraces
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-target/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-target.zip
+  - action: unzip
+    src: ./tmp/qb_qb-target.zip
+    dest: ./tmp/qb_qb-target
+  - action: move_path
+    src: ./tmp/qb_qb-target/qb-target-main
+    dest: ./resources/[qb]/qb-target
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-taxijob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-taxijob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-taxijob.zip
+    dest: ./tmp/qb_qb-taxijob
+  - action: move_path
+    src: ./tmp/qb_qb-taxijob/qb-taxijob-main
+    dest: ./resources/[qb]/qb-taxijob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-towjob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-towjob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-towjob.zip
+    dest: ./tmp/qb_qb-towjob
+  - action: move_path
+    src: ./tmp/qb_qb-towjob/qb-towjob-main
+    dest: ./resources/[qb]/qb-towjob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-truckerjob/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-truckerjob.zip
+  - action: unzip
+    src: ./tmp/qb_qb-truckerjob.zip
+    dest: ./tmp/qb_qb-truckerjob
+  - action: move_path
+    src: ./tmp/qb_qb-truckerjob/qb-truckerjob-main
+    dest: ./resources/[qb]/qb-truckerjob
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-truckrobbery/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-truckrobbery.zip
+  - action: unzip
+    src: ./tmp/qb_qb-truckrobbery.zip
+    dest: ./tmp/qb_qb-truckrobbery
+  - action: move_path
+    src: ./tmp/qb_qb-truckrobbery/qb-truckrobbery-main
+    dest: ./resources/[qb]/qb-truckrobbery
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-vehiclekeys/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-vehiclekeys.zip
+  - action: unzip
+    src: ./tmp/qb_qb-vehiclekeys.zip
+    dest: ./tmp/qb_qb-vehiclekeys
+  - action: move_path
+    src: ./tmp/qb_qb-vehiclekeys/qb-vehiclekeys-main
+    dest: ./resources/[qb]/qb-vehiclekeys
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-vehiclesales/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-vehiclesales.zip
+  - action: unzip
+    src: ./tmp/qb_qb-vehiclesales.zip
+    dest: ./tmp/qb_qb-vehiclesales
+  - action: move_path
+    src: ./tmp/qb_qb-vehiclesales/qb-vehiclesales-main
+    dest: ./resources/[qb]/qb-vehiclesales
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-vehicleshop/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-vehicleshop.zip
+  - action: unzip
+    src: ./tmp/qb_qb-vehicleshop.zip
+    dest: ./tmp/qb_qb-vehicleshop
+  - action: move_path
+    src: ./tmp/qb_qb-vehicleshop/qb-vehicleshop-main
+    dest: ./resources/[qb]/qb-vehicleshop
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-vineyard/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-vineyard.zip
+  - action: unzip
+    src: ./tmp/qb_qb-vineyard.zip
+    dest: ./tmp/qb_qb-vineyard
+  - action: move_path
+    src: ./tmp/qb_qb-vineyard/qb-vineyard-main
+    dest: ./resources/[qb]/qb-vineyard
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-weapons/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-weapons.zip
+  - action: unzip
+    src: ./tmp/qb_qb-weapons.zip
+    dest: ./tmp/qb_qb-weapons
+  - action: move_path
+    src: ./tmp/qb_qb-weapons/qb-weapons-main
+    dest: ./resources/[qb]/qb-weapons
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-weathersync/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-weathersync.zip
+  - action: unzip
+    src: ./tmp/qb_qb-weathersync.zip
+    dest: ./tmp/qb_qb-weathersync
+  - action: move_path
+    src: ./tmp/qb_qb-weathersync/qb-weathersync-main
+    dest: ./resources/[qb]/qb-weathersync
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-weed/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-weed.zip
+  - action: unzip
+    src: ./tmp/qb_qb-weed.zip
+    dest: ./tmp/qb_qb-weed
+  - action: move_path
+    src: ./tmp/qb_qb-weed/qb-weed-main
+    dest: ./resources/[qb]/qb-weed
+
+  ## Database tables
+  - action: query_database
+    file: ./resources/[qb]/qb-core/qbcore.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-apartments/qb-apartments.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-banking/banking.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-clothing/qb-clothing.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-crypto/qb-crypto.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-drugs/qb-drugs.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-garages/player_vehicles.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-houses/qb-houses.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-inventory/qb-inventory.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-lapraces/qb-lapraces.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-phone/qb-phone.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-vehiclesales/qb-vehiclesales.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-vehicleshop/vehshop.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-weed/qb-weed.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

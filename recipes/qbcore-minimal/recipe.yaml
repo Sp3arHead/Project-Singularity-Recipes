@@ -1,0 +1,163 @@
+# Project Singularity recipe: QBCore (minimal)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$onesync: on
+name: "QBCore (minimal)"
+version: 1.0.0
+author: Project Singularity
+description: "qb-core with character selection, spawn, the starter apartment, inventory and the clothing menu, nothing else."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbcore-minimal/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[gamemodes]/basic-gamemode
+    dest: ./resources/[cfx]/basic-gamemode
+
+  ## Database
+  - action: connect_database
+
+  ## Libraries
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[standalone]/oxmysql
+  - action: download_file
+    url: https://github.com/qbcore-fivem/PolyZone/archive/refs/heads/master.zip
+    path: ./tmp/qb_PolyZone.zip
+  - action: unzip
+    src: ./tmp/qb_PolyZone.zip
+    dest: ./tmp/qb_PolyZone
+  - action: move_path
+    src: ./tmp/qb_PolyZone/PolyZone-master
+    dest: ./resources/[standalone]/PolyZone
+
+  ## QBCore
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-core/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-core.zip
+  - action: unzip
+    src: ./tmp/qb_qb-core.zip
+    dest: ./tmp/qb_qb-core
+  - action: move_path
+    src: ./tmp/qb_qb-core/qb-core-main
+    dest: ./resources/[qb]/qb-core
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-multicharacter/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-multicharacter.zip
+  - action: unzip
+    src: ./tmp/qb_qb-multicharacter.zip
+    dest: ./tmp/qb_qb-multicharacter
+  - action: move_path
+    src: ./tmp/qb_qb-multicharacter/qb-multicharacter-main
+    dest: ./resources/[qb]/qb-multicharacter
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-spawn/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-spawn.zip
+  - action: unzip
+    src: ./tmp/qb_qb-spawn.zip
+    dest: ./tmp/qb_qb-spawn
+  - action: move_path
+    src: ./tmp/qb_qb-spawn/qb-spawn-main
+    dest: ./resources/[qb]/qb-spawn
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-apartments/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-apartments.zip
+  - action: unzip
+    src: ./tmp/qb_qb-apartments.zip
+    dest: ./tmp/qb_qb-apartments
+  - action: move_path
+    src: ./tmp/qb_qb-apartments/qb-apartments-main
+    dest: ./resources/[qb]/qb-apartments
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-interior/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-interior.zip
+  - action: unzip
+    src: ./tmp/qb_qb-interior.zip
+    dest: ./tmp/qb_qb-interior
+  - action: move_path
+    src: ./tmp/qb_qb-interior/qb-interior-main
+    dest: ./resources/[qb]/qb-interior
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-clothing/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-clothing.zip
+  - action: unzip
+    src: ./tmp/qb_qb-clothing.zip
+    dest: ./tmp/qb_qb-clothing
+  - action: move_path
+    src: ./tmp/qb_qb-clothing/qb-clothing-main
+    dest: ./resources/[qb]/qb-clothing
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-weathersync/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-weathersync.zip
+  - action: unzip
+    src: ./tmp/qb_qb-weathersync.zip
+    dest: ./tmp/qb_qb-weathersync
+  - action: move_path
+    src: ./tmp/qb_qb-weathersync/qb-weathersync-main
+    dest: ./resources/[qb]/qb-weathersync
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-inventory/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-inventory.zip
+  - action: unzip
+    src: ./tmp/qb_qb-inventory.zip
+    dest: ./tmp/qb_qb-inventory
+  - action: move_path
+    src: ./tmp/qb_qb-inventory/qb-inventory-main
+    dest: ./resources/[qb]/qb-inventory
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-weapons/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-weapons.zip
+  - action: unzip
+    src: ./tmp/qb_qb-weapons.zip
+    dest: ./tmp/qb_qb-weapons
+  - action: move_path
+    src: ./tmp/qb_qb-weapons/qb-weapons-main
+    dest: ./resources/[qb]/qb-weapons
+  - action: download_file
+    url: https://github.com/qbcore-fivem/qb-menu/archive/refs/heads/main.zip
+    path: ./tmp/qb_qb-menu.zip
+  - action: unzip
+    src: ./tmp/qb_qb-menu.zip
+    dest: ./tmp/qb_qb-menu
+  - action: move_path
+    src: ./tmp/qb_qb-menu/qb-menu-main
+    dest: ./resources/[qb]/qb-menu
+
+  ## Database tables
+  - action: query_database
+    file: ./resources/[qb]/qb-core/qbcore.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-apartments/qb-apartments.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-clothing/qb-clothing.sql
+  - action: query_database
+    file: ./resources/[qb]/qb-inventory/qb-inventory.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

@@ -1,0 +1,116 @@
+# Project Singularity recipe: Qbox (minimal)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$onesync: on
+name: "Qbox (minimal)"
+version: 1.0.0
+author: Project Singularity
+description: "qbx_core with its inventory, ID cards and the appearance menu, nothing else."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbox-minimal/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+
+  ## Database
+  - action: connect_database
+
+  ## Overextended
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[ox]/oxmysql
+  - action: download_file
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+    path: ./tmp/ox_lib.zip
+  - action: unzip
+    src: ./tmp/ox_lib.zip
+    dest: ./tmp/ox_lib
+  - action: move_path
+    src: ./tmp/ox_lib/ox_lib
+    dest: ./resources/[ox]/ox_lib
+  - action: download_file
+    url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
+    path: ./tmp/ox_inventory.zip
+  - action: unzip
+    src: ./tmp/ox_inventory.zip
+    dest: ./tmp/ox_inventory
+  - action: move_path
+    src: ./tmp/ox_inventory/ox_inventory
+    dest: ./resources/[ox]/ox_inventory
+  - action: download_file
+    url: https://raw.githubusercontent.com/Qbox-project/txAdminRecipe/main/items.lua
+    path: ./resources/[ox]/ox_inventory/data/items.lua
+
+  ## Qbox
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_core/releases/latest/download/qbx_core.zip
+    path: ./tmp/qbx_qbx_core.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_core.zip
+    dest: ./tmp/qbx_qbx_core
+  - action: move_path
+    src: ./tmp/qbx_qbx_core/qbx_core
+    dest: ./resources/[qbx]/qbx_core
+  - action: download_file
+    url: https://github.com/Qbox-project/qbx_idcard/archive/refs/heads/main.zip
+    path: ./tmp/qbx_qbx_idcard.zip
+  - action: unzip
+    src: ./tmp/qbx_qbx_idcard.zip
+    dest: ./tmp/qbx_qbx_idcard
+  - action: move_path
+    src: ./tmp/qbx_qbx_idcard/qbx_idcard-main
+    dest: ./resources/[qbx]/qbx_idcard
+  - action: download_file
+    url: https://github.com/BaziForYou/MugShotBase64/archive/refs/heads/main.zip
+    path: ./tmp/MugShotBase64.zip
+  - action: unzip
+    src: ./tmp/MugShotBase64.zip
+    dest: ./tmp/MugShotBase64
+  - action: move_path
+    src: ./tmp/MugShotBase64/MugShotBase64-main/MugShotBase64
+    dest: ./resources/[standalone]/MugShotBase64
+  - action: download_file
+    url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+    path: ./tmp/illenium-appearance.zip
+  - action: unzip
+    src: ./tmp/illenium-appearance.zip
+    dest: ./tmp/illenium-appearance
+  - action: move_path
+    src: ./tmp/illenium-appearance/illenium-appearance
+    dest: ./resources/[standalone]/illenium-appearance
+
+  ## Database tables
+  - action: query_database
+    file: ./resources/[qbx]/qbx_core/qbx_core.sql
+  - action: query_database
+    file: ./resources/[standalone]/illenium-appearance/sql/playerskins.sql
+  - action: query_database
+    file: ./resources/[standalone]/illenium-appearance/sql/player_outfits.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

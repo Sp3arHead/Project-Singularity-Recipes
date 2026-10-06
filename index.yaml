@@ -1,54 +1,110 @@
 # Recipes offered by Project Singularity.
-# Each entry points at a recipe file in this repository; `url` is what the
-# deployer loads. Keep the list in the order it should be shown.
+# Built by scripts/build_recipes.py; `url` is what the deployer loads.
+# Keep the list in the order it should be shown.
 
-version: 2
+version: 3
 updated: 2026-10-06
 recipes:
-  - id: esx-legacy
-    name: ESX Legacy
+  - id: esx-full
+    name: "ESX Legacy (full)"
     framework: esx
-    description: Complete ESX Legacy roleplay server with jobs, housing, vehicles, banking, phone and voice.
-    author: Project Singularity (based on ESX Framework)
+    kind: full
+    description: "Every ESX Legacy resource: the whole core, all addons and the seasonal content, with phone, voice and the ox library."
+    resources: 64
+    tasks: 40
     engine: 3
     onesync: on
     database: true
-    tags: [fivem, roleplay, esx]
-    file: recipes/esx-legacy/recipe.yaml
-    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/esx-legacy/recipe.yaml
+    file: recipes/esx-full/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/esx-full/recipe.yaml
 
-  - id: qbcore
-    name: QBCore
+  - id: esx-minimal
+    name: "ESX Legacy (minimal)"
+    framework: esx
+    kind: minimal
+    description: "The ESX core with character registration and the skin menu, nothing else."
+    resources: 9
+    tasks: 22
+    engine: 3
+    onesync: on
+    database: true
+    file: recipes/esx-minimal/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/esx-minimal/recipe.yaml
+
+  - id: qbcore-full
+    name: "QBCore (full)"
     framework: qbcore
-    description: Complete QBCore roleplay server with jobs, gangs, housing, vehicles, phone and voice.
-    author: Project Singularity (based on QBCore Framework)
+    kind: full
+    description: "Every resource the QBCore team publishes: all jobs, robberies, housing, vehicles, phone, admin menu, maps and voice."
+    resources: 77
+    tasks: 236
     engine: 3
     onesync: on
     database: true
-    tags: [fivem, roleplay, qbcore]
-    file: recipes/qbcore/recipe.yaml
-    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbcore/recipe.yaml
+    file: recipes/qbcore-full/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbcore-full/recipe.yaml
 
-  - id: qbox
-    name: Qbox
+  - id: qbcore-minimal
+    name: "QBCore (minimal)"
+    framework: qbcore
+    kind: minimal
+    description: "qb-core with character selection, spawn, the starter apartment, inventory and the clothing menu, nothing else."
+    resources: 16
+    tasks: 49
+    engine: 3
+    onesync: on
+    database: true
+    file: recipes/qbcore-minimal/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbcore-minimal/recipe.yaml
+
+  - id: qbox-full
+    name: "Qbox (full)"
     framework: qbox
-    description: Complete Qbox roleplay server (QBCore compatible) with ox_inventory, jobs, housing, vehicles, phone and voice.
-    author: Project Singularity (based on the Qbox Project)
+    kind: full
+    description: "Every Qbox resource with the ox stack, Renewed banking and weather, NPWD phone, appearance, voice and maps."
+    resources: 78
+    tasks: 251
     engine: 3
     onesync: on
     database: true
-    tags: [fivem, roleplay, qbox, ox]
-    file: recipes/qbox/recipe.yaml
-    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbox/recipe.yaml
+    file: recipes/qbox-full/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbox-full/recipe.yaml
 
-  - id: ox-core
-    name: ox_core
-    framework: ox
-    description: Complete ox_core server with ox_inventory, banking, doorlock, target, fuel, appearance, phone and voice.
-    author: Project Singularity (based on Overextended)
+  - id: qbox-minimal
+    name: "Qbox (minimal)"
+    framework: qbox
+    kind: minimal
+    description: "qbx_core with its inventory, ID cards and the appearance menu, nothing else."
+    resources: 10
+    tasks: 33
     engine: 3
     onesync: on
     database: true
-    tags: [fivem, roleplay, ox]
-    file: recipes/ox-core/recipe.yaml
-    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/ox-core/recipe.yaml
+    file: recipes/qbox-minimal/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/qbox-minimal/recipe.yaml
+
+  - id: ox-full
+    name: "ox_core (full)"
+    framework: ox
+    kind: full
+    description: "Every maintained Overextended resource: inventory, banking, doorlock, target, fuel, commands, with appearance, NPWD phone, voice and maps."
+    resources: 18
+    tasks: 59
+    engine: 3
+    onesync: on
+    database: true
+    file: recipes/ox-full/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/ox-full/recipe.yaml
+
+  - id: ox-minimal
+    name: "ox_core (minimal)"
+    framework: ox
+    kind: minimal
+    description: "ox_core with its built-in character selection and the appearance menu, nothing else."
+    resources: 7
+    tasks: 24
+    engine: 3
+    onesync: on
+    database: true
+    file: recipes/ox-minimal/recipe.yaml
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/ox-minimal/recipe.yaml

@@ -1,0 +1,194 @@
+# Project Singularity recipe: ox_core (full)
+# Built by scripts/build_recipes.py from the definitions there; edit those, not this file.
+$engine: 3
+$minFxVersion: 12913
+$onesync: on
+name: "ox_core (full)"
+version: 1.0.0
+author: Project Singularity
+description: "Every maintained Overextended resource: inventory, banking, doorlock, target, fuel, commands, with appearance, NPWD phone, voice and maps."
+
+tasks:
+  ## server.cfg
+  - action: download_file
+    url: https://raw.githubusercontent.com/Sp3arHead/Project-Singularity-Recipes/main/recipes/ox-full/server.cfg
+    path: ./server.cfg
+
+  ## Cfx.re resources
+  - action: download_file
+    url: https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.zip
+    path: ./tmp/cfx.zip
+  - action: unzip
+    src: ./tmp/cfx.zip
+    dest: ./tmp/cfx
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/mapmanager
+    dest: ./resources/[cfx]/mapmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[managers]/spawnmanager
+    dest: ./resources/[cfx]/spawnmanager
+  - action: move_path
+    src: ./tmp/cfx/cfx-server-data-master/resources/[system]/baseevents
+    dest: ./resources/[cfx]/baseevents
+
+  ## Database
+  - action: connect_database
+
+  ## Overextended, every maintained resource
+  - action: download_file
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+    path: ./tmp/oxmysql.zip
+  - action: unzip
+    src: ./tmp/oxmysql.zip
+    dest: ./tmp/oxmysql
+  - action: move_path
+    src: ./tmp/oxmysql/oxmysql
+    dest: ./resources/[ox]/oxmysql
+  - action: download_file
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+    path: ./tmp/ox_lib.zip
+  - action: unzip
+    src: ./tmp/ox_lib.zip
+    dest: ./tmp/ox_lib
+  - action: move_path
+    src: ./tmp/ox_lib/ox_lib
+    dest: ./resources/[ox]/ox_lib
+  - action: download_file
+    url: https://github.com/overextended/ox_core/releases/latest/download/ox_core.zip
+    path: ./tmp/ox_core.zip
+  - action: unzip
+    src: ./tmp/ox_core.zip
+    dest: ./tmp/ox_core
+  - action: move_path
+    src: ./tmp/ox_core/ox_core
+    dest: ./resources/[ox]/ox_core
+  - action: download_file
+    url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
+    path: ./tmp/ox_inventory.zip
+  - action: unzip
+    src: ./tmp/ox_inventory.zip
+    dest: ./tmp/ox_inventory
+  - action: move_path
+    src: ./tmp/ox_inventory/ox_inventory
+    dest: ./resources/[ox]/ox_inventory
+  - action: download_file
+    url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
+    path: ./tmp/ox_target.zip
+  - action: unzip
+    src: ./tmp/ox_target.zip
+    dest: ./tmp/ox_target
+  - action: move_path
+    src: ./tmp/ox_target/ox_target
+    dest: ./resources/[ox]/ox_target
+  - action: download_file
+    url: https://github.com/overextended/ox_doorlock/releases/latest/download/ox_doorlock.zip
+    path: ./tmp/ox_doorlock.zip
+  - action: unzip
+    src: ./tmp/ox_doorlock.zip
+    dest: ./tmp/ox_doorlock
+  - action: move_path
+    src: ./tmp/ox_doorlock/ox_doorlock
+    dest: ./resources/[ox]/ox_doorlock
+  - action: download_file
+    url: https://github.com/overextended/ox_banking/releases/latest/download/ox_banking.zip
+    path: ./tmp/ox_banking.zip
+  - action: unzip
+    src: ./tmp/ox_banking.zip
+    dest: ./tmp/ox_banking
+  - action: move_path
+    src: ./tmp/ox_banking/ox_banking
+    dest: ./resources/[ox]/ox_banking
+  - action: download_file
+    url: https://github.com/overextended/ox_fuel/releases/latest/download/ox_fuel.zip
+    path: ./tmp/ox_fuel.zip
+  - action: unzip
+    src: ./tmp/ox_fuel.zip
+    dest: ./tmp/ox_fuel
+  - action: move_path
+    src: ./tmp/ox_fuel/ox_fuel
+    dest: ./resources/[ox]/ox_fuel
+  - action: download_file
+    url: https://github.com/overextended/ox_commands/archive/refs/heads/main.zip
+    path: ./tmp/ox_commands.zip
+  - action: unzip
+    src: ./tmp/ox_commands.zip
+    dest: ./tmp/ox_commands
+  - action: move_path
+    src: ./tmp/ox_commands/ox_commands-main
+    dest: ./resources/[ox]/ox_commands
+
+  ## Appearance, phone, voice, map, loading screen
+  - action: download_file
+    url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+    path: ./tmp/illenium-appearance.zip
+  - action: unzip
+    src: ./tmp/illenium-appearance.zip
+    dest: ./tmp/illenium-appearance
+  - action: move_path
+    src: ./tmp/illenium-appearance/illenium-appearance
+    dest: ./resources/[standalone]/illenium-appearance
+  - action: download_file
+    url: https://github.com/project-error/npwd/releases/latest/download/npwd.zip
+    path: ./tmp/npwd.zip
+  - action: unzip
+    src: ./tmp/npwd.zip
+    dest: ./tmp/npwd
+  - action: move_path
+    src: ./tmp/npwd/npwd
+    dest: ./resources/[standalone]/npwd
+  - action: download_file
+    url: https://github.com/project-error/screenshot-basic/releases/download/1.0.1/screenshot-basic.zip
+    path: ./tmp/screenshot-basic.zip
+  - action: unzip
+    src: ./tmp/screenshot-basic.zip
+    dest: ./tmp/screenshot-basic
+  - action: move_path
+    src: ./tmp/screenshot-basic
+    dest: ./resources/[standalone]/screenshot-basic
+  - action: download_file
+    url: https://github.com/AvarianKnight/pma-voice/archive/refs/heads/main.zip
+    path: ./tmp/pma-voice.zip
+  - action: unzip
+    src: ./tmp/pma-voice.zip
+    dest: ./tmp/pma-voice
+  - action: move_path
+    src: ./tmp/pma-voice/pma-voice-main
+    dest: ./resources/[standalone]/pma-voice
+  - action: download_file
+    url: https://github.com/Bob74/bob74_ipl/archive/refs/heads/master.zip
+    path: ./tmp/bob74_ipl.zip
+  - action: unzip
+    src: ./tmp/bob74_ipl.zip
+    dest: ./tmp/bob74_ipl
+  - action: move_path
+    src: ./tmp/bob74_ipl/bob74_ipl-master
+    dest: ./resources/[standalone]/bob74_ipl
+  - action: download_file
+    url: https://github.com/DokaDoka/pe-basicloading/archive/refs/heads/ox.zip
+    path: ./tmp/pe-basicloading.zip
+  - action: unzip
+    src: ./tmp/pe-basicloading.zip
+    dest: ./tmp/pe-basicloading
+  - action: move_path
+    src: ./tmp/pe-basicloading/pe-basicloading-ox
+    dest: ./resources/[standalone]/pe-basicloading
+
+  ## Database tables
+  - action: replace_string
+    file: ./resources/[ox]/ox_core/sql/install.sql
+    search: overextended
+    replace: "{{dbName}}"
+  - action: query_database
+    file: ./resources/[ox]/ox_core/sql/install.sql
+  - action: query_database
+    file: ./resources/[standalone]/illenium-appearance/sql/playerskins.sql
+  - action: query_database
+    file: ./resources/[standalone]/illenium-appearance/sql/player_outfits.sql
+  - action: query_database
+    file: ./resources/[ox]/ox_doorlock/sql/ox_doorlock.sql
+  - action: query_database
+    file: ./resources/[standalone]/npwd/import.sql
+
+  ## Cleanup
+  - action: remove_path
+    path: ./tmp

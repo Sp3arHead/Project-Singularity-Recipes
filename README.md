@@ -1,48 +1,76 @@
 # Project Singularity Recipes
 
-Complete server presets for [Project Singularity](https://github.com/Sp3arHead/Project-Singularity).
-A recipe builds a whole FiveM server in one run: framework, jobs, inventory,
-phone, voice, maps, the database and a ready `server.cfg`.
+Server presets for [Project Singularity](https://github.com/Sp3arHead/Project-Singularity).
+A recipe builds a whole FiveM server in one run: framework, resources, the
+database tables and a ready `server.cfg`.
 
-| Recipe | Framework | Tasks | Folder |
+Every framework comes in two kinds:
+
+- **full**: every resource the framework team publishes (plus what those
+  resources need), so the server starts with everything there is.
+- **minimal**: as few resources as possible: the framework core, the database,
+  and what it takes to create a character, shape it and spawn.
+
+| Recipe | Resources | Tasks | Folder |
 |---|---|---|---|
-| ESX Legacy | `es_extended` | 21 | [recipes/esx-legacy](recipes/esx-legacy) |
-| QBCore | `qb-core` | 89 | [recipes/qbcore](recipes/qbcore) |
-| Qbox | `qbx_core` (QBCore compatible) | 120 | [recipes/qbox](recipes/qbox) |
-| ox_core | `ox_core` | 39 | [recipes/ox-core](recipes/ox-core) |
+| ESX Legacy (full) | 64 | 40 | [recipes/esx-full](recipes/esx-full) |
+| ESX Legacy (minimal) | 9 | 22 | [recipes/esx-minimal](recipes/esx-minimal) |
+| QBCore (full) | 77 | 236 | [recipes/qbcore-full](recipes/qbcore-full) |
+| QBCore (minimal) | 16 | 49 | [recipes/qbcore-minimal](recipes/qbcore-minimal) |
+| Qbox (full) | 78 | 251 | [recipes/qbox-full](recipes/qbox-full) |
+| Qbox (minimal) | 10 | 33 | [recipes/qbox-minimal](recipes/qbox-minimal) |
+| ox_core (full) | 18 | 59 | [recipes/ox-full](recipes/ox-full) |
+| ox_core (minimal) | 7 | 24 | [recipes/ox-minimal](recipes/ox-minimal) |
 
-The list the panel reads is [index.yaml](index.yaml).
+The list the panel reads is [index.yaml](index.yaml). Each folder has a README
+with everything the recipe installs, its database tables and notes.
 
 ## What every recipe needs
 
 - An empty folder to deploy into.
-- A MariaDB or MySQL server; the deployer creates the database when it does not exist.
+- A MariaDB or MySQL server (ox_core: MariaDB 11.4 or newer); the deployer
+  creates the database when it does not exist.
 - A Cfx.re license key from [portal.cfx.re](https://portal.cfx.re).
 - OneSync, which the recipes switch on.
 
-## Based on the official recipes
+## How the recipes are built
 
-Each recipe starts from the framework team's own recipe, so the resources and
-their order are the ones the framework expects. The changes for Project
-Singularity are marked with `Singularity:` in the recipe file:
+The recipes are not copies of the framework teams' recipes. They are built by
+[scripts/build_recipes.py](scripts/build_recipes.py) from the resource lists in
+that file, and every build checks them against the real downloads:
 
-- Our own `server.cfg` per recipe (in the recipe's folder), with notes on the
-  panel and without settings that only existed in txAdmin.
+- every path a recipe moves exists in the downloaded archive
+- every dependency and `@include` of every resource is installed
+- every SQL file the recipe runs exists
+- every web interface a resource names exists (no resource that needs a build)
+- `server.cfg` starts every installed resource
+
+Before they were published, all eight were also run end to end with the
+panel's own recipe engine (everything except the database steps, whose SQL
+files were checked to exist and to use the deployer's database).
+
+Downloads use GitHub release zips and branch archives, never the GitHub API:
+the API allows a server without a GitHub token 60 requests an hour, which a
+large recipe would run out of halfway.
+
+Made for Project Singularity:
+
 - No second connection queue: the panel has its own (*Players → Queue*), so
-  QBCore's `connectqueue` is left out and Qbox's built-in queue is switched off.
+  connectqueue is left out and qbx_core's queue is switched off.
+- Our own `server.cfg` per recipe, without settings that only existed in txAdmin.
+- `ox_inventory` is set to the framework it runs with.
+- SQL files that create their own database (`es_extended`, `overextended`) are
+  pointed at the database chosen in the deployer.
 
-Resources are downloaded from their latest releases or main branches at the
-time of the run, exactly like the official recipes.
+## Changing a recipe
 
-## Writing or changing a recipe
+1. Edit the lists in `scripts/build_recipes.py` (and `server.cfg` in the recipe's folder).
+2. Run `python scripts/build_recipes.py`; it rebuilds `recipe.yaml` and `README.md`
+   and fails on any problem.
+3. Optional: `python scripts/check-sources.py` looks every download up online.
+4. Add new recipes to `index.yaml` and open a pull request.
 
-1. Put the recipe in `recipes/<id>/recipe.yaml`, with its `server.cfg` and a `README.md` next to it.
-2. Add it to `index.yaml`.
-3. Check it: `python scripts/check-sources.py <id>` looks up every repository,
-   branch, download and file the recipe uses.
-4. Open a pull request.
-
-The format and all actions are described in [schema/recipe.schema.md](schema/recipe.schema.md).
+The recipe format and all actions are described in [schema/recipe.schema.md](schema/recipe.schema.md).
 
 ## License
 
