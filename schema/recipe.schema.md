@@ -1,69 +1,106 @@
-# Recipe schema
+# Recipe format
 
-A recipe is a YAML document that describes safe, declarative setup tasks for a Project Singularity server. Each recipe must contain the following top-level fields:
+A recipe is a YAML file the Project Singularity deployer runs to build a complete
+server: it downloads resources, prepares the database and writes `server.cfg`.
+The deployer is the recipe engine Project Singularity inherited from txAdmin
+(engine version 3), so recipes written for txAdmin run unchanged.
 
-- `name` (required): The display name of the recipe.
-- `version` (required): The recipe format version selected by its author.
-- `author`: The person or organization that maintains the recipe.
-- `description`: A short description of what the recipe provides.
-- `requiresLicense`: Whether a valid Project Singularity license is required. The default is `true`.
-- `optionalPackages`: An optional list of packages that can be enabled by the server owner.
-- `tasks` (required): The ordered list of actions performed by the recipe.
+Every recipe runs inside the folder it deploys to. Paths are relative to that
+folder and cannot leave it (`..` is refused). There is no action that runs
+shell commands.
 
-Each entry in `optionalPackages` may contain:
-
-- `id`: The stable identifier of the optional package.
-- `name`: The display name of the optional package.
-- `description`: A description of the optional package.
-- `defaultEnabled`: Whether the package is enabled by default.
-- `tasks`: The ordered list of actions for the optional package.
-
-## Allowed actions
-
-A recipe may use only these action types and fields:
-
-- `download_github` with `repo`, `ref`, `subpath`, and `dest`.
-- `download_file` with `url` and `dest`.
-- `unzip` with `src` and `dest`.
-- `move_path` with `src` and `dest`.
-- `remove_path` with `path`.
-- `write_file` with `path` and `content`.
-- `append_to_cfg` with `content`.
-- `connect_database` with no parameters.
-- `query_database` with either `file` or `sql`.
-- `waste_time` with `seconds`, which may be at most 30.
-
-There is no action that runs shell commands, by design.
-
-## Limits and safety requirements
-
-- A recipe file is at most 256 KB.
-- There are at most 100 steps including optional packages.
-- Each downloaded file is at most 1 GB.
-- Each SQL file is at most 50 MB.
-- A run takes at most 1800 seconds.
-- All URLs must use HTTPS.
-- All target paths must stay inside the server data folder.
-
-## Complete example recipe
-
-The following is an example only. It does not install a real package or reference a real external project.
+## Header
 
 ```yaml
-name: Example Recipe
-version: 1
-author: Example Author
-description: A three-step example recipe for documentation.
-requiresLicense: false
-optionalPackages: []
+$engine: 3              # required engine version; 3 is current
+$minFxVersion: 12913    # optional, lowest FXServer build the recipe needs
+$onesync: on            # optional: off, legacy or on
+$steamRequired: false   # optional, asks for a Steam Web API key when true
+
+name: My Server         # shown in the deployer
+version: 1.0.0
+author: Someone
+description: One sentence about the server.
+
+variables:              # optional, extra {{variables}} with default values
+  myVar: "value"
+
 tasks:
-  - action: download_file
-    url: https://example.com/example-package.zip
-    dest: downloads/example-package.zip
-  - action: unzip
-    src: downloads/example-package.zip
-    dest: resources/example-package
+  - action: ...
+```
+
+## Variables
+
+`{{name}}` is replaced in `server.cfg` after all tasks have run, and in any file
+a `replace_string` task with `mode: all_vars` touches.
+
+| Variable | Value |
+|---|---|
+| `serverName` | Server name from the panel |
+| `recipeName`, `recipeAuthor`, `recipeDescription` | From the header |
+| `deploymentID` | Id of this deployment |
+| `svLicense` | Cfx.re license key entered in the deployer |
+| `maxClients` | Slots (48 unless the host forces a number) |
+| `serverEndpoints` | The `endpoint_add_tcp` / `endpoint_add_udp` lines |
+| `addPrincipalsMaster` | `add_principal` lines that make the master account an admin in game |
+| `dbHost`, `dbPort`, `dbUsername`, `dbPassword`, `dbName` | Database entered in the deployer |
+| `dbConnectionString` | `mysql://user:password@host/database?charset=utf8mb4` |
+
+A recipe cannot declare variables with the database or license names above.
+
+## Actions
+
+| Action | Options | Timeout |
+|---|---|---|
+| `download_github` | `src` (repo URL), `ref` (branch or tag, default branch when left out), `subpath`, `dest` | 180 s |
+| `download_file` | `url`, `path` | 180 s |
+| `unzip` | `src`, `dest` | 180 s |
+| `move_path` | `src`, `dest`, `overwrite` | 180 s |
+| `copy_path` | `src`, `dest`, `overwrite` | 180 s |
+| `remove_path` | `path` (missing paths are fine) | 15 s |
+| `ensure_dir` | `path` | 15 s |
+| `write_file` | `file`, `data`, `append` | 15 s |
+| `replace_string` | `file` (one or a list), `mode` (`template`, `literal`, `all_vars`), `search`, `replace` | 15 s |
+| `connect_database` | none; creates the database when it does not exist | 30 s |
+| `query_database` | `file` or `query` | 90 s |
+| `load_vars` | `src`, a JSON file whose keys become variables | 5 s |
+| `waste_time` | `seconds`, e.g. to avoid GitHub rate limits | 300 s |
+
+Any task can set its own `timeoutSeconds`.
+
+## What a finished deployment needs
+
+After the last task the deployer checks that a `resources` folder and a
+`server.cfg` exist, then replaces the variables in `server.cfg`. A recipe that
+uses a `*_database` action asks for the database in the deployer.
+
+## Example
+
+```yaml
+$engine: 3
+$onesync: on
+name: Minimal Server
+version: 1.0.0
+author: Example
+description: The default Cfx.re resources and a server.cfg.
+
+tasks:
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources
+
   - action: write_file
-    path: resources/example-package/example.cfg
-    content: "# Example configuration\n"
+    file: ./server.cfg
+    data: |
+      {{serverEndpoints}}
+      sv_maxclients {{maxClients}}
+      sv_licenseKey "{{svLicense}}"
+      sv_hostname "{{serverName}}"
+      ensure mapmanager
+      ensure chat
+      ensure spawnmanager
+      ensure sessionmanager
+      {{addPrincipalsMaster}}
 ```
